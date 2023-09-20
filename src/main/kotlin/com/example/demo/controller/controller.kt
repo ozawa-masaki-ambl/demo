@@ -1,27 +1,30 @@
 package com.example.demo.controller
 
+import com.example.demo.model.Model
+import com.example.demo.service.Service
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class Controller(){
+class Controller(var service: Service) {
     @GetMapping("/hello")
     fun hello(@RequestParam(value = "name", defaultValue = "World") name :String):String{
-        return "Hello, $name !"
+        return service.getHelloService(name)
     }
     @PostMapping("/hi")
-    fun hi(@RequestParam(value = "name", defaultValue = "World") name :String):String{
-        return "Hi, $name !"}
+    fun hi(@RequestBody model :Model):String{
+        return service.getHiService(model.name)}
     @PutMapping("/hao")
-    fun hao(@RequestParam(value = "name", defaultValue = "World") name :String):String{
-        return "Hao, $name !"}
+    fun hao(@RequestBody model :Model):String{
+        return service.getHaoService(model.name)}
     @DeleteMapping("/hey")
     fun hey(@RequestParam(value = "name", defaultValue = "World") name :String):String{
-        return "Hey, $name !"}
+        return service.getHeyService(name)}
 }
 /**
  * get post put delete
