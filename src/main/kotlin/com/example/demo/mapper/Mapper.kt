@@ -8,5 +8,5 @@ import org.apache.ibatis.annotations.Select
 @Mapper
 interface Mapper {
     @Select("SELECT * FROM Customers")
-    fun access(): List<Model?>
+    fun access(): List<Model>
 }

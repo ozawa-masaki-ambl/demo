@@ -18,11 +18,11 @@ class Controller(private val service :Service) {
         return service.getHelloService(name)
     }
     @PostMapping("/hi")
-    fun hi(@RequestBody Model :Model):String{
-        return service.getHiService(Model)}
+    fun hi(@RequestBody model :Model):String{
+        return service.getHiService(model)}
     @PutMapping("/hao")
-    fun hao(@RequestBody Model :Model):String{
-        return service.getHaoService(Model)}
+    fun hao(@RequestBody model :Model):String{
+        return service.getHaoService(model)}
     @DeleteMapping("/hey")
     fun hey(@RequestParam(value = "name", defaultValue = "World") name :String):String{
         return service.getHeyService(name)}
