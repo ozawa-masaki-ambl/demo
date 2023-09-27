@@ -7,7 +7,20 @@ import org.springframework.stereotype.Service
 @Service
 class Service (private val mapper :Mapper){
 
-    fun access() : List<Model> = mapper.access()
+    fun customerAccess() : List<Model> = mapper.customerAccess()
+
+//    fun  historyAccess():List<History> {
+//        var hisList = mapper.historyAccess()
+//        hisList.get()
+//    }
+
+
+
+
+
+
+
+
 
 
     fun getHelloService(name: String):String{

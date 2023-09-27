@@ -10,9 +10,37 @@ class Controller(private val service :Service) {
 
     @GetMapping("/getall")
     fun index(): String  {
-        val modelList = service.access()
+        val modelList = service.customerAccess()
         return "$modelList"
     }
+//    @GetMapping("/gethistory")
+//    fun history(): String  {
+//        val historyList = service.historyAccess()
+//            return "$historyList"
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @GetMapping("/hello")
     fun hello(@RequestParam(value = "name", defaultValue = "World") name :String):String{
         return service.getHelloService(name)
