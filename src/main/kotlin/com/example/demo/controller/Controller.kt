@@ -10,8 +10,8 @@ class Controller(private val service :Service) {
 
     @GetMapping("/getall")
     fun index(): String  {
-        val modelList = service.customerAccess()
-        return "$modelList"
+        val customerList = service.customerAccess()
+        return "$customerList"
     }
 //    @GetMapping("/gethistory")
 //    fun history(): String  {
