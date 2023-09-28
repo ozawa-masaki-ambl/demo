@@ -1,17 +1,19 @@
 package com.example.demo.service
 
-import com.example.demo.mapper.Mapper
+import com.example.demo.mapper.CustomerMapper
+import com.example.demo.mapper.HistoryMapper
 import com.example.demo.model.Customer
 import com.example.demo.model.History
 import com.example.demo.model.Model
 import org.springframework.stereotype.Service
 
 @Service
-class Service (private val mapper :Mapper){
-
-    fun customerAccess() : List<Customer> = mapper.customerAccess()
-
-    fun historyAccess() : List<History> = mapper.historyAccess()
+class Service (private val customerMapper: CustomerMapper, private val historyMapper: HistoryMapper) {
+    fun customerAccess() : List<Customer> = customerMapper.customerAccess()
+    fun historyAccess() : List<History> = historyMapper.historyAccess()
+//    fun getProductById(id:Int):List<Product> {
+//        return
+//    }
 
 
 
