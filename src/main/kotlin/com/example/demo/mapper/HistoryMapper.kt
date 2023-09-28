@@ -9,7 +9,7 @@ interface HistoryMapper {
                 pur.purchase_id,
                 cus.customer_name,
                 pro.product_name,
-                pur.purchase_datetime,                 
+                pur.purchase_datetime,
                 pur.quantity
             FROM
                 Purchase_History pur
