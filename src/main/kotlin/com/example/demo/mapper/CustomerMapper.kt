@@ -6,9 +6,8 @@ import org.apache.ibatis.annotations.Select
 
 
 @Mapper
-interface Mapper {
+interface CustomerMapper {
     @Select("SELECT * FROM Customers")
     fun customerAccess(): List<Customer>
-//    @Select("SELECT * FROM Purchase_History")
-//    fun historyAccess(): List<History>
+
 }

@@ -1,6 +1,7 @@
 package com.example.demo.controller
 
 import com.example.demo.model.Customer
+import com.example.demo.model.History
 import com.example.demo.model.Model
 import com.example.demo.service.Service
 import org.springframework.web.bind.annotation.*
@@ -8,14 +9,18 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class Controller(private val service :Service) {
 
-
+    /**
+     * 顧客情報を取得
+     */
     @GetMapping("/get/customers")
     fun getCustomers(): List<Customer> = service.customerAccess()
-//    @GetMapping("/get/history")
-//    fun history(): String  {
-//        val historyList = service.historyAccess()
-//            return "$historyList"
-//    }
+
+    /**
+     * 購入履歴を購入者名と商品名がわかるように取得
+     */
+    @GetMapping("/get/histories")
+    fun getHistories(): List<History> = service.historyAccess()
+
 
 
 
