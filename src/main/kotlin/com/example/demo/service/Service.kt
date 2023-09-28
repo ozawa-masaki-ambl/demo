@@ -8,12 +8,9 @@ import com.example.demo.model.Model
 import org.springframework.stereotype.Service
 
 @Service
-class Service (private val customerMapper: CustomerMapper, private val historyMapper: HistoryMapper) {
+class Service (private val customerMapper :CustomerMapper,private val historyMapper: HistoryMapper){
     fun customerAccess() : List<Customer> = customerMapper.customerAccess()
     fun historyAccess() : List<History> = historyMapper.historyAccess()
-//    fun getProductById(id:Int):List<Product> {
-//        return
-//    }
 
 
 

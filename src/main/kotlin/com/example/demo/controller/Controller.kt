@@ -7,20 +7,13 @@ import com.example.demo.service.Service
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class Controller(private val service: Service) {
+class Controller(private val service :Service) {
 
-    /**
-     *顧客情報を取得
-     */
-    @GetMapping("/get/customers")
+
+    @GetMapping("/get/customers")// 顧客情報を取得
     fun getCustomers(): List<Customer> = service.customerAccess()
-
-    /**
-     * 購入履歴を購入者名と商品名がわかるように取得
-     */
-    @GetMapping("/get/histories")
+    @GetMapping("/get/histories")// 購入履歴を購入者名と商品名がわかるように取得
     fun getHistories(): List<History> = service.historyAccess()
-
 
 
 
