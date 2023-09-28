@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*
 class Controller(private val service :Service) {
 
 
-    @GetMapping("/get/customer")
-    fun getCustomer(): List<Customer> = service.customerAccess()
+    @GetMapping("/get/customers")
+    fun getCustomers(): List<Customer> = service.customerAccess()
 //    @GetMapping("/get/history")
 //    fun history(): String  {
 //        val historyList = service.historyAccess()
