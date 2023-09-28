@@ -1,5 +1,6 @@
 package com.example.demo.controller
 
+import com.example.demo.model.Customer
 import com.example.demo.model.Model
 import com.example.demo.service.Service
 import org.springframework.web.bind.annotation.*
@@ -8,12 +9,9 @@ import org.springframework.web.bind.annotation.*
 class Controller(private val service :Service) {
 
 
-    @GetMapping("/getall")
-    fun index(): String  {
-        val modelList = service.customerAccess()
-        return "$modelList"
-    }
-//    @GetMapping("/gethistory")
+    @GetMapping("/get/customers")
+    fun getCustomers(): List<Customer> = service.customerAccess()
+//    @GetMapping("/get/history")
 //    fun history(): String  {
 //        val historyList = service.historyAccess()
 //            return "$historyList"
