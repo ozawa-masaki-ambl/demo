@@ -21,6 +21,12 @@ class Controller(private val service :Service) {
     @GetMapping("/get/histories")
     fun getHistories(): List<History> = service.historyAccess()
 
+    /**
+     * 顧客IDを引数に顧客が購入した商品の一覧
+     */
+    @GetMapping("/get/history/by/id")
+    fun getHistoryById(@RequestParam(value = "id") id: Int): List<History> = service.historyAccessById(id)
+
 
 
 

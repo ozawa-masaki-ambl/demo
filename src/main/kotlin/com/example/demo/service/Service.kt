@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service
 class Service (private val customerMapper: CustomerMapper, private val historyMapper: HistoryMapper) {
     fun customerAccess() : List<Customer> = customerMapper.customerAccess()
     fun historyAccess() : List<History> = historyMapper.historyAccess()
+    fun historyAccessById(id: Int) : List<History> = historyMapper.historyAccessById(id)
 
 
 
