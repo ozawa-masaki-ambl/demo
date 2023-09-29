@@ -25,7 +25,6 @@ interface HistoryMapper {
                 pro.product_name,
                 pur.purchase_datetime,
                 pur.quantity
-                
             FROM
                 Purchase_History pur
             JOIN
@@ -34,5 +33,5 @@ interface HistoryMapper {
                 Products pro ON pur.product_id = pro.product_id
             WHERE
                 pur.customer_id=#{id}""")
-fun historyAccessById(id: Int): List<History>
+    fun historyAccessById(customerId: Int): List<History>
 }
