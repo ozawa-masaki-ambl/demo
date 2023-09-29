@@ -19,7 +19,7 @@ interface HistoryMapper {
                 Products pro ON pur.product_id = pro.product_id""")
     fun historyAccess(): List<History>
 
-@Select("""SELECT
+    @Select("""SELECT
                 pur.purchase_id,
                 cus.customer_name,
                 pro.product_name,
@@ -32,6 +32,6 @@ interface HistoryMapper {
             JOIN
                 Products pro ON pur.product_id = pro.product_id
             WHERE
-                pur.customer_id=#{id}""")
+                pur.customer_id=#{customerId}""")
     fun historyAccessById(customerId: Int): List<History>
 }
