@@ -12,6 +12,9 @@ class Service (private val customerMapper: CustomerMapper, private val historyMa
     fun customerAccess() : List<Customer> = customerMapper.customerAccess()
     fun historyAccess() : List<History> = historyMapper.historyAccess()
     fun historyAccessById(customerId: Int) : List<History> = historyMapper.historyAccessById(customerId)
+    fun registerHistory(history: History){
+        historyMapper.registerHistory(history)
+    }
 
 
 

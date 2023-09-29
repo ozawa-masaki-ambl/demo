@@ -27,7 +27,13 @@ class Controller(private val service :Service) {
     @GetMapping("/histories/customers/{id}")
     fun getHistoryById(@PathVariable("id") customerId: Int): List<History> = service.historyAccessById(customerId)
 
-
+    /**
+     * 商品の購入情報を登録する
+     */
+    @PostMapping("/histories/registration")
+    fun  registerHistory(@RequestBody history: History){
+        service.registerHistory(history)
+    }
 
 
 

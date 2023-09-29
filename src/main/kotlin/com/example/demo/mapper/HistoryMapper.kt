@@ -1,6 +1,7 @@
 package com.example.demo.mapper
 
 import com.example.demo.model.History
+import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Select
 @Mapper
@@ -34,4 +35,13 @@ interface HistoryMapper {
             WHERE
                 pur.customer_id=#{customerId}""")
     fun historyAccessById(customerId: Int): List<History>
+
+    @Insert("""INSERT INTO Purchase_History (purchase_id, customer_id, product_id, purchase_datetime, quantity)
+    VALUES
+        (#{purchaseId},
+        (SELECT customer_id FROM Customers c WHERE c.customer_name = #{customerName}),
+        (SELECT product_id FROM Products p WHERE p.product_name = #{productName}),
+        #{purchaseDatetime},
+        #{quantity})""")
+    fun registerHistory(history: History)
 }
