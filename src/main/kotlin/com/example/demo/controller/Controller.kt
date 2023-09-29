@@ -13,19 +13,19 @@ class Controller(private val service :Service) {
      * 顧客情報を取得
      */
     @GetMapping("/customers")
-    fun Customers(): List<Customer> = service.customerAccess()
+    fun getCustomers(): List<Customer> = service.customerAccess()
 
     /**
      * 購入履歴を購入者名と商品名がわかるように取得
      */
     @GetMapping("/histories")
-    fun Histories(): List<History> = service.historyAccess()
+    fun getHistories(): List<History> = service.historyAccess()
 
     /**
      * 顧客IDを引数に顧客が購入した商品の一覧
      */
     @GetMapping("/histories/customers/{id}")
-    fun HistoryById(@PathVariable("id") customerId: Int): List<History> = service.historyAccessById(customerId)
+    fun getHistoryById(@PathVariable("id") customerId: Int): List<History> = service.historyAccessById(customerId)
 
 
 
