@@ -9,5 +9,7 @@ import org.apache.ibatis.annotations.Select
 interface CustomerMapper {
     @Select("SELECT * FROM Customers")
     fun customerAccess(): List<Customer>
+    @Select("""SELECT EXISTS (SELECT * FROM Customers WHERE customer_id=#{customerId})""")
+    fun  existCheck(customerId:Int?): Boolean
 
 }

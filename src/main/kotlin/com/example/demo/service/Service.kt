@@ -2,18 +2,29 @@ package com.example.demo.service
 
 import com.example.demo.mapper.CustomerMapper
 import com.example.demo.mapper.HistoryMapper
+import com.example.demo.mapper.ProductMapper
 import com.example.demo.model.Customer
 import com.example.demo.model.History
 import com.example.demo.model.Model
+import com.example.demo.model.RegisterHistory
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.server.ResponseStatusException
 
 @Service
-class Service (private val customerMapper: CustomerMapper, private val historyMapper: HistoryMapper) {
+class Service (private val customerMapper: CustomerMapper, private val historyMapper: HistoryMapper, private val productMapper: ProductMapper) {
     fun customerAccess() : List<Customer> = customerMapper.customerAccess()
     fun historyAccess() : List<History> = historyMapper.historyAccess()
     fun historyAccessById(customerId: Int) : List<History> = historyMapper.historyAccessById(customerId)
-    fun registerHistory(history: History){
-        historyMapper.registerHistory(history)
+
+    @Transactional
+    fun registerHistory(registerHistory: RegisterHistory) {
+       if (customerMapper.existCheck(registerHistory.customerId)&&productMapper.existCheck(registerHistory.productId)) {
+        historyMapper.registerHistory(registerHistory)}
+       else{
+           throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        }
     }
 
 
