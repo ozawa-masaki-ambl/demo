@@ -3,8 +3,7 @@ package com.example.demo.model
 import jakarta.validation.constraints.NotNull
 
 
-data class RegisterHistory(
-                           @field: NotNull
+data class RegisterHistory(@field: NotNull
                            val customerId: Int?,
                            @field: NotNull
                            val productId: Int?,

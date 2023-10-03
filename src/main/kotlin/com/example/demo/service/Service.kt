@@ -18,13 +18,13 @@ class Service (private val customerMapper: CustomerMapper, private val historyMa
     fun historyAccess() : List<History> = historyMapper.historyAccess()
     fun historyAccessById(customerId: Int) : List<History> = historyMapper.historyAccessById(customerId)
 
-    @Transactional
+    @Transactional(rollbackFor = [Exception::class])
     fun registerHistory(registerHistory: RegisterHistory) {
-       if (customerMapper.existCheck(registerHistory.customerId)&&productMapper.existCheck(registerHistory.productId)) {
-        historyMapper.registerHistory(registerHistory)}
-       else{
+       if (customerMapper.existCheck(registerHistory.customerId) != null && productMapper.existCheck(registerHistory.productId) != null) {
+        historyMapper.registerHistory(registerHistory)
+       } else {
            throw ResponseStatusException(HttpStatus.NOT_FOUND)
-        }
+       }
     }
 
 

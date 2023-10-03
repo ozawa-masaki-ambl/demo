@@ -36,11 +36,12 @@ class Controller(private val service :Service) {
      * 商品の購入情報を登録する
      */
     @PostMapping("/histories/registration")
-    fun registerHistory(@Validated @RequestBody  registerHistory: RegisterHistory,result: BindingResult) {
+    fun registerHistory(@Validated @RequestBody registerHistory: RegisterHistory, result: BindingResult) {
         if (result.hasErrors()) {
            throw ResponseStatusException(HttpStatus.BAD_REQUEST)
+        } else {
+            service.registerHistory(registerHistory)
         }
-        service.registerHistory(registerHistory)
     }
 
 
