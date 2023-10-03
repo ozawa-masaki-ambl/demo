@@ -20,7 +20,7 @@ class Service (private val customerMapper: CustomerMapper, private val historyMa
 
     @Transactional(rollbackFor = [Exception::class])
     fun registerHistory(registerHistory: RegisterHistory) {
-       if (customerMapper.existCheck(registerHistory.customerId) != null && productMapper.existCheck(registerHistory.productId) != null) {
+       if (customerMapper.existCheck(registerHistory.customerId!!) != null && productMapper.existCheck(registerHistory.productId!!) != null) {
         historyMapper.registerHistory(registerHistory)
        } else {
            throw ResponseStatusException(HttpStatus.NOT_FOUND)

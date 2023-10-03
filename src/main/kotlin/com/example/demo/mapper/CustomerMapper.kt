@@ -15,5 +15,5 @@ interface CustomerMapper {
                 Customers 
             WHERE 
                 customer_id = #{customerId}""")
-    fun  existCheck(customerId: Int?): Int?
+    fun existCheck(customerId: Int): Int?
 }

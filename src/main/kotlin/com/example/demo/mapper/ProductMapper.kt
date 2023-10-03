@@ -9,5 +9,5 @@ interface ProductMapper {
                 Products 
             WHERE 
                 product_id = #{productId}""")
-    fun  existCheck(productId: Int?): Int?
+    fun existCheck(productId: Int): Int?
 }
