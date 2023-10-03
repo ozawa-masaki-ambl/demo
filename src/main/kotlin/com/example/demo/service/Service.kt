@@ -3,10 +3,7 @@ package com.example.demo.service
 import com.example.demo.mapper.CustomerMapper
 import com.example.demo.mapper.HistoryMapper
 import com.example.demo.mapper.ProductMapper
-import com.example.demo.model.Customer
-import com.example.demo.model.History
-import com.example.demo.model.Model
-import com.example.demo.model.RegisterHistory
+import com.example.demo.model.*
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -25,6 +22,15 @@ class Service (private val customerMapper: CustomerMapper, private val historyMa
        } else {
            throw ResponseStatusException(HttpStatus.NOT_FOUND)
        }
+    }
+    @Transactional(rollbackFor = [Exception::class])
+    fun editHistory(editHistory: EditHistory) {
+        val editHistoryNotNull: EditHistory = historyMapper.accessHistory(editHistory.purchaseId!!)
+        editHistory.customerId = editHistory.customerId ?: editHistoryNotNull.customerId
+        editHistory.productId = editHistory.productId ?: editHistoryNotNull.productId
+        editHistory.purchaseDatetime = editHistory.purchaseDatetime ?: editHistoryNotNull.purchaseDatetime
+        editHistory.quantity = editHistory.quantity ?: editHistoryNotNull.quantity
+        historyMapper.editHistory(editHistory)
     }
 
 

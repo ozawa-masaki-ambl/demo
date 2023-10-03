@@ -1,10 +1,13 @@
 package com.example.demo.mapper
 
+import com.example.demo.model.EditHistory
 import com.example.demo.model.History
 import com.example.demo.model.RegisterHistory
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Select
+import org.apache.ibatis.annotations.Update
+
 @Mapper
 interface HistoryMapper {
     @Select("""SELECT
@@ -37,13 +40,30 @@ interface HistoryMapper {
                 pur.customer_id=#{customerId}""")
     fun historyAccessById(customerId: Int): List<History>
 
-    @Insert("""INSERT INTO Purchase_History (customer_id, product_id, purchase_datetime, quantity)
-    VALUES(
-        #{customerId},
-        #{productId},
-        CURRENT_TIMESTAMP,
-        #{quantity})""")
+    @Insert("""INSERT INTO 
+                Purchase_History (customer_id, product_id, purchase_datetime, quantity)
+            VALUES(
+                #{customerId},
+                #{productId},
+                CURRENT_TIMESTAMP,
+                #{quantity})""")
     fun registerHistory(registerHistory: RegisterHistory)
 
+    @Update("""UPDATE Purchase_History 
+            SET 
+                customer_id = #{customerId}, 
+                product_id = #{productId}, 
+                purchase_datetime = #{purchaseDatetime}, 
+                quantity = #{quantity} 
+            WHERE 
+                purchase_id = #{purchaseId};""")
+    fun editHistory(editHistory: EditHistory)
+
+    @Select("""SELECT * 
+            FROM 
+                Purchase_History
+            WHERE 
+                purchase_id = #{purchaseId}""")
+    fun accessHistory(purchaseId: Int): EditHistory
 
 }
