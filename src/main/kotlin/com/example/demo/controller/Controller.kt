@@ -3,8 +3,13 @@ package com.example.demo.controller
 import com.example.demo.model.Customer
 import com.example.demo.model.History
 import com.example.demo.model.Model
+import com.example.demo.model.RegisterHistory
 import com.example.demo.service.Service
+import org.springframework.http.HttpStatus
+import org.springframework.validation.BindingResult
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 
 @RestController
 class Controller(private val service :Service) {
@@ -27,7 +32,17 @@ class Controller(private val service :Service) {
     @GetMapping("/histories/customers/{id}")
     fun getHistoryById(@PathVariable("id") customerId: Int): List<History> = service.historyAccessById(customerId)
 
-
+    /**
+     * 商品の購入情報を登録する
+     */
+    @PostMapping("/histories/registration")
+    fun registerHistory(@Validated @RequestBody registerHistory: RegisterHistory, result: BindingResult) {
+        if (result.hasErrors()) {
+           throw ResponseStatusException(HttpStatus.BAD_REQUEST)
+        } else {
+            service.registerHistory(registerHistory)
+        }
+    }
 
 
 

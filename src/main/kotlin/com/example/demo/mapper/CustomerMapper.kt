@@ -9,5 +9,11 @@ import org.apache.ibatis.annotations.Select
 interface CustomerMapper {
     @Select("SELECT * FROM Customers")
     fun customerAccess(): List<Customer>
-
+    @Select("""SELECT 
+                customer_id 
+            FROM 
+                Customers 
+            WHERE 
+                customer_id = #{customerId}""")
+    fun existCheck(customerId: Int): Int?
 }
