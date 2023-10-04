@@ -29,14 +29,25 @@ class Service (private val customerMapper: CustomerMapper, private val historyMa
     }
     @Transactional(rollbackFor = [Exception::class])
     fun editHistory(editHistory: EditHistory, purchaseId: Int) {
-        val historyOrigin = historyMapper.findHistoryRow(purchaseId) ?: run { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
-        editHistory.purchaseId = purchaseId
-        editHistory.customerId = editHistory.customerId ?: historyOrigin.customerId
-        editHistory.productId = editHistory.productId ?: historyOrigin.productId
-        editHistory.quantity = editHistory.quantity ?: historyOrigin.quantity
-        customerMapper.existCheck(editHistory.customerId!!) ?: run { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
-        productMapper.existCheck(editHistory.productId!!) ?: run { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
-        historyMapper.editHistory(editHistory)
+        val historyOrigin = historyMapper.findHistoryRow(purchaseId) ?: run {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        }
+        historyOrigin.purchaseId = purchaseId
+        if (editHistory.customerId != null) {
+            customerMapper.existCheck(editHistory.customerId) ?: run {
+                throw ResponseStatusException(HttpStatus.NOT_FOUND)
+            }
+            historyOrigin.customerId = editHistory.customerId
+        }
+        if (editHistory.productId != null) {
+            productMapper.existCheck(editHistory.productId) ?: run {
+                throw ResponseStatusException(HttpStatus.NOT_FOUND)
+            }
+            historyOrigin.productId = editHistory.productId
+        }
+        historyOrigin.productId = editHistory.productId ?: historyOrigin.productId
+        historyOrigin.quantity = editHistory.quantity ?: historyOrigin.quantity
+        historyMapper.editHistory(historyOrigin)
     }
 
 

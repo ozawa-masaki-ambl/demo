@@ -1,6 +1,5 @@
 package com.example.demo.mapper
 
-import com.example.demo.model.EditHistory
 import com.example.demo.model.History
 import com.example.demo.model.HistoryOrigin
 import com.example.demo.model.RegisterHistory
@@ -24,7 +23,7 @@ interface HistoryMapper {
             Customers cus ON pur.customer_id = cus.customer_id
         JOIN
             Products pro ON pur.product_id = pro.product_id
-            """)
+    """)
     fun historyAccess(): List<History>
 
     @Select("""
@@ -42,7 +41,7 @@ interface HistoryMapper {
             Products pro ON pur.product_id = pro.product_id
         WHERE
             pur.customer_id=#{customerId}
-            """)
+    """)
     fun historyAccessById(customerId: Int): List<History>
 
     @Insert("""
@@ -53,7 +52,7 @@ interface HistoryMapper {
             #{productId},
             CURRENT_TIMESTAMP,
             #{quantity})
-            """)
+    """)
     fun registerHistory(registerHistory: RegisterHistory)
 
     @Update("""
@@ -65,8 +64,8 @@ interface HistoryMapper {
             quantity = #{quantity} 
         WHERE 
             purchase_id = #{purchaseId}
-            """)
-    fun editHistory(editHistory: EditHistory)
+    """)
+    fun editHistory(historyOrigin: HistoryOrigin)
 
     @Select("""
         SELECT
@@ -79,7 +78,7 @@ interface HistoryMapper {
             Purchase_History
         WHERE 
             purchase_id = #{purchaseId}
-            """)
+    """)
     fun findHistoryRow(purchaseId: Int): HistoryOrigin?
 
 }
