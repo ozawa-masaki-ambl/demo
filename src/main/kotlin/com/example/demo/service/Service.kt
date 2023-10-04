@@ -27,6 +27,7 @@ class Service (private val customerMapper: CustomerMapper, private val historyMa
            throw ResponseStatusException(HttpStatus.NOT_FOUND)
        }
     }
+
     @Transactional(rollbackFor = [Exception::class])
     fun editHistory(editHistory: EditHistory, purchaseId: Int) {
         val historyOrigin = historyMapper.findHistoryRow(purchaseId) ?: run {
@@ -56,6 +57,7 @@ class Service (private val customerMapper: CustomerMapper, private val historyMa
         historyOrigin.quantity = editHistory.quantity ?: historyOrigin.quantity
         historyMapper.editHistory(historyOrigin)
     }
+
     @Transactional(rollbackFor = [Exception::class])
     fun deleteHistory(purchaseId: Int) {
         historyMapper.findHistoryRow(purchaseId) ?: run {
