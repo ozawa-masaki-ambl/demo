@@ -88,5 +88,5 @@ interface HistoryMapper {
         WHERE 
             purchase_id = #{purchaseId}
     """)
-    fun  deleteHistoryRow(purchaseId: Int)
+    fun deleteHistoryRow(purchaseId: Int)
 }
