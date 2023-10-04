@@ -45,7 +45,6 @@ class Service (private val customerMapper: CustomerMapper, private val historyMa
             }
             historyOrigin.productId = editHistory.productId
         }
-        historyOrigin.productId = editHistory.productId ?: historyOrigin.productId
         historyOrigin.quantity = editHistory.quantity ?: historyOrigin.quantity
         historyMapper.editHistory(historyOrigin)
     }
