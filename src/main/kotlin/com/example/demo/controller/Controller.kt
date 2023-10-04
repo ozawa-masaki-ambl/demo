@@ -57,7 +57,7 @@ class Controller(private val service :Service) {
      */
     @PutMapping("/histories/{id}")
     fun editHistory(@PathVariable("id") purchaseId: Int, @RequestBody editHistory: EditHistory) {
-        service.editHistory(editHistory,purchaseId)
+        service.editHistory(editHistory, purchaseId)
     }
 
 

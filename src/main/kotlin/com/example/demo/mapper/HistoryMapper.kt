@@ -23,7 +23,8 @@ interface HistoryMapper {
         JOIN
             Customers cus ON pur.customer_id = cus.customer_id
         JOIN
-            Products pro ON pur.product_id = pro.product_id""")
+            Products pro ON pur.product_id = pro.product_id
+            """)
     fun historyAccess(): List<History>
 
     @Select("""
@@ -40,7 +41,8 @@ interface HistoryMapper {
         JOIN
             Products pro ON pur.product_id = pro.product_id
         WHERE
-            pur.customer_id=#{customerId}""")
+            pur.customer_id=#{customerId}
+            """)
     fun historyAccessById(customerId: Int): List<History>
 
     @Insert("""
@@ -50,7 +52,8 @@ interface HistoryMapper {
             #{customerId},
             #{productId},
             CURRENT_TIMESTAMP,
-            #{quantity})""")
+            #{quantity})
+            """)
     fun registerHistory(registerHistory: RegisterHistory)
 
     @Update("""
@@ -59,10 +62,10 @@ interface HistoryMapper {
         SET 
             customer_id = #{customerId}, 
             product_id = #{productId}, 
-            purchase_datetime = #{purchaseDatetime}, 
             quantity = #{quantity} 
         WHERE 
-                purchase_id = #{purchaseId}""")
+            purchase_id = #{purchaseId}
+            """)
     fun editHistory(editHistory: EditHistory)
 
     @Select("""
@@ -75,7 +78,8 @@ interface HistoryMapper {
         FROM 
             Purchase_History
         WHERE 
-            purchase_id = #{purchaseId}""")
-    fun findHistoryRow(purchaseId: Int): HistoryOrigin
+            purchase_id = #{purchaseId}
+            """)
+    fun findHistoryRow(purchaseId: Int): HistoryOrigin?
 
 }

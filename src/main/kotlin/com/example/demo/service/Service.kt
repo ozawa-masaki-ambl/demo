@@ -6,7 +6,6 @@ import com.example.demo.mapper.ProductMapper
 import com.example.demo.model.Customer
 import com.example.demo.model.EditHistory
 import com.example.demo.model.History
-import com.example.demo.model.HistoryOrigin
 import com.example.demo.model.Model
 import com.example.demo.model.RegisterHistory
 import org.springframework.http.HttpStatus
@@ -30,17 +29,14 @@ class Service (private val customerMapper: CustomerMapper, private val historyMa
     }
     @Transactional(rollbackFor = [Exception::class])
     fun editHistory(editHistory: EditHistory, purchaseId: Int) {
-        val historyOrigin: HistoryOrigin = historyMapper.findHistoryRow(purchaseId)
-        if (historyOrigin == null) {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND)
-        } else {
-            editHistory.purchaseId = purchaseId
-            editHistory.customerId = editHistory.customerId ?: historyOrigin.customerId
-            editHistory.productId = editHistory.productId ?: historyOrigin.productId
-            editHistory.purchaseDatetime = editHistory.purchaseDatetime ?: historyOrigin.purchaseDatetime
-            editHistory.quantity = editHistory.quantity ?: historyOrigin.quantity
-            historyMapper.editHistory(editHistory)
-        }
+        val historyOrigin = historyMapper.findHistoryRow(purchaseId) ?: run { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+        editHistory.purchaseId = purchaseId
+        editHistory.customerId = editHistory.customerId ?: historyOrigin.customerId
+        editHistory.productId = editHistory.productId ?: historyOrigin.productId
+        editHistory.quantity = editHistory.quantity ?: historyOrigin.quantity
+        customerMapper.existCheck(editHistory.customerId!!) ?: run { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+        productMapper.existCheck(editHistory.productId!!) ?: run { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+        historyMapper.editHistory(editHistory)
     }
 
 
