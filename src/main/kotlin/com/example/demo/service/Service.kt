@@ -39,6 +39,14 @@ class Service (private val customerMapper: CustomerMapper, private val historyMa
             }
             historyOrigin.customerId = editHistory.customerId
         }
+//let学習
+//        historyOrigin.customerId = editHistory.customerId?.let { requestCustomerId ->
+//            customerMapper.existCheck(editHistory.customerId) ?: run {
+//                throw ResponseStatusException(HttpStatus.NOT_FOUND)
+//            }
+//            requestCustomerId
+//        }?:historyOrigin.customerId
+
         if (editHistory.productId != null) {
             productMapper.existCheck(editHistory.productId) ?: run {
                 throw ResponseStatusException(HttpStatus.NOT_FOUND)
@@ -47,6 +55,13 @@ class Service (private val customerMapper: CustomerMapper, private val historyMa
         }
         historyOrigin.quantity = editHistory.quantity ?: historyOrigin.quantity
         historyMapper.editHistory(historyOrigin)
+    }
+    @Transactional(rollbackFor = [Exception::class])
+    fun deleteHistory(purchaseId: Int) {
+        historyMapper.findHistoryRow(purchaseId) ?: run {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        }
+        historyMapper.deleteHistoryRow(purchaseId)
     }
 
 

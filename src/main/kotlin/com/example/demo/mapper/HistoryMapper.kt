@@ -3,6 +3,7 @@ package com.example.demo.mapper
 import com.example.demo.model.History
 import com.example.demo.model.HistoryOrigin
 import com.example.demo.model.RegisterHistory
+import org.apache.ibatis.annotations.Delete
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Select
@@ -81,4 +82,11 @@ interface HistoryMapper {
     """)
     fun findHistoryRow(purchaseId: Int): HistoryOrigin?
 
+    @Delete("""
+        DELETE FROM 
+            Purchase_History 
+        WHERE 
+            purchase_id = #{purchaseId}
+    """)
+    fun  deleteHistoryRow(purchaseId: Int)
 }

@@ -60,6 +60,13 @@ class Controller(private val service :Service) {
         service.editHistory(editHistory, purchaseId)
     }
 
+    /**
+     * 商品の購入情報を削除する
+     */
+    @DeleteMapping("/histories/{id}")
+    fun  deleteHistory(@PathVariable("id") purchaseId: Int) {
+        service.deleteHistory(purchaseId)
+    }
 
 
 
