@@ -4,6 +4,7 @@ import com.example.demo.mapper.CustomerMapper
 import com.example.demo.mapper.HistoryMapper
 import com.example.demo.mapper.ProductMapper
 import com.example.demo.model.Customer
+import com.example.demo.model.EditHistory
 import com.example.demo.model.History
 import com.example.demo.model.Model
 import com.example.demo.model.RegisterHistory
@@ -25,6 +26,27 @@ class Service (private val customerMapper: CustomerMapper, private val historyMa
        } else {
            throw ResponseStatusException(HttpStatus.NOT_FOUND)
        }
+    }
+    @Transactional(rollbackFor = [Exception::class])
+    fun editHistory(editHistory: EditHistory, purchaseId: Int) {
+        val historyOrigin = historyMapper.findHistoryRow(purchaseId) ?: run {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        }
+        historyOrigin.purchaseId = purchaseId
+        if (editHistory.customerId != null) {
+            customerMapper.existCheck(editHistory.customerId) ?: run {
+                throw ResponseStatusException(HttpStatus.NOT_FOUND)
+            }
+            historyOrigin.customerId = editHistory.customerId
+        }
+        if (editHistory.productId != null) {
+            productMapper.existCheck(editHistory.productId) ?: run {
+                throw ResponseStatusException(HttpStatus.NOT_FOUND)
+            }
+            historyOrigin.productId = editHistory.productId
+        }
+        historyOrigin.quantity = editHistory.quantity ?: historyOrigin.quantity
+        historyMapper.editHistory(historyOrigin)
     }
 
 
