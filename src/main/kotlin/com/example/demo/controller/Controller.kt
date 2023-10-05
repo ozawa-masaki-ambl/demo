@@ -38,7 +38,7 @@ class Controller(private val service: Service) {
      * 顧客IDを引数に顧客が購入した商品の一覧
      */
     @GetMapping("/histories/customers/{id}")
-    fun getHistoryById(@PathVariable("id") customerId: Int): List<History>? = service.historyAccessById(customerId)
+    fun getHistoryById(@PathVariable("id") customerId: Int): List<History> = service.historyAccessById(customerId)
 
     /**
      * 商品の購入情報を登録する
@@ -56,7 +56,7 @@ class Controller(private val service: Service) {
      * 商品の購入情報を編集する
      */
     @PutMapping("/histories/{id}")
-    fun editHistory(@PathVariable("id") purchaseId: Int, @RequestBody editHistory: EditHistory?) {
+    fun editHistory(@PathVariable("id") purchaseId: Int, @RequestBody editHistory: EditHistory) {
         service.editHistory(editHistory, purchaseId)
     }
 

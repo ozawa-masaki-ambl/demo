@@ -43,7 +43,7 @@ interface HistoryMapper {
         WHERE
             pur.customer_id=#{customerId}
     """)
-    fun accessHistoryById(customerId: Int): List<History>?
+    fun accessHistoryById(customerId: Int): List<History>
 
     @Insert("""
         INSERT INTO 

@@ -20,7 +20,7 @@ class Service(private val customerMapper: CustomerMapper, private val historyMap
     fun accessAllHistory(): List<History> = historyMapper.accessAllHistory()
 
     @Transactional(rollbackFor = [Exception::class])
-    fun historyAccessById(customerId: Int): List<History>? {
+    fun historyAccessById(customerId: Int): List<History> {
         customerMapper.existCheck(customerId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
         return historyMapper.accessHistoryById(customerId)
     }
@@ -33,8 +33,7 @@ class Service(private val customerMapper: CustomerMapper, private val historyMap
     }
 
     @Transactional(rollbackFor = [Exception::class])
-    fun editHistory(editHistory: EditHistory?, purchaseId: Int) {
-        editHistory ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST)
+    fun editHistory(editHistory: EditHistory, purchaseId: Int) {
         val historyOrigin = historyMapper.findHistoryRow(purchaseId) ?: run {
             throw ResponseStatusException(HttpStatus.NOT_FOUND)
         }
