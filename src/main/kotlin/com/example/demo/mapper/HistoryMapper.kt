@@ -25,7 +25,7 @@ interface HistoryMapper {
         JOIN
             Products pro ON pur.product_id = pro.product_id
     """)
-    fun historyAccess(): List<History>
+    fun accessAllHistory(): List<History>
 
     @Select("""
         SELECT
@@ -43,7 +43,7 @@ interface HistoryMapper {
         WHERE
             pur.customer_id=#{customerId}
     """)
-    fun historyAccessById(customerId: Int): List<History>
+    fun accessHistoryById(customerId: Int): List<History>?
 
     @Insert("""
         INSERT INTO 
