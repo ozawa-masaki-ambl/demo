@@ -14,18 +14,22 @@ import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.server.ResponseStatusException
 
 @Service
-class Service (private val customerMapper: CustomerMapper, private val historyMapper: HistoryMapper, private val productMapper: ProductMapper) {
-    fun customerAccess() : List<Customer> = customerMapper.customerAccess()
-    fun historyAccess() : List<History> = historyMapper.historyAccess()
-    fun historyAccessById(customerId: Int) : List<History> = historyMapper.historyAccessById(customerId)
+class Service(private val customerMapper: CustomerMapper, private val historyMapper: HistoryMapper, private val productMapper: ProductMapper) {
+    fun accessAllCustomer(): List<Customer> = customerMapper.accessAllCustomer()
+
+    fun accessAllHistory(): List<History> = historyMapper.accessAllHistory()
+
+    @Transactional(rollbackFor = [Exception::class])
+    fun historyAccessById(customerId: Int): List<History> {
+        customerMapper.existCheck(customerId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        return historyMapper.accessHistoryById(customerId)
+    }
 
     @Transactional(rollbackFor = [Exception::class])
     fun registerHistory(registerHistory: RegisterHistory) {
-       if (customerMapper.existCheck(registerHistory.customerId!!) != null && productMapper.existCheck(registerHistory.productId!!) != null) {
+        customerMapper.existCheck(registerHistory.customerId!!) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        productMapper.existCheck(registerHistory.productId!!) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
         historyMapper.registerHistory(registerHistory)
-       } else {
-           throw ResponseStatusException(HttpStatus.NOT_FOUND)
-       }
     }
 
     @Transactional(rollbackFor = [Exception::class])
@@ -34,20 +38,13 @@ class Service (private val customerMapper: CustomerMapper, private val historyMa
             throw ResponseStatusException(HttpStatus.NOT_FOUND)
         }
         historyOrigin.purchaseId = purchaseId
+
         if (editHistory.customerId != null) {
             customerMapper.existCheck(editHistory.customerId) ?: run {
                 throw ResponseStatusException(HttpStatus.NOT_FOUND)
             }
             historyOrigin.customerId = editHistory.customerId
         }
-//let学習
-//        historyOrigin.customerId = editHistory.customerId?.let { requestCustomerId ->
-//            customerMapper.existCheck(editHistory.customerId) ?: run {
-//                throw ResponseStatusException(HttpStatus.NOT_FOUND)
-//            }
-//            requestCustomerId
-//        }?:historyOrigin.customerId
-
         if (editHistory.productId != null) {
             productMapper.existCheck(editHistory.productId) ?: run {
                 throw ResponseStatusException(HttpStatus.NOT_FOUND)
@@ -56,37 +53,50 @@ class Service (private val customerMapper: CustomerMapper, private val historyMa
         }
         historyOrigin.quantity = editHistory.quantity ?: historyOrigin.quantity
         historyMapper.editHistory(historyOrigin)
+
+        //let学習
+//        historyOrigin.customerId = editHistory.customerId?.let { requestCustomerId ->
+//            customerMapper.existCheck(editHistory.customerId) ?: run {
+//                throw ResponseStatusException(HttpStatus.NOT_FOUND)
+//            }
+//            requestCustomerId
+//        }?:historyOrigin.customerId
+
+//        historyOrigin.productId = editHistory.productId?.let {
+//            customerMapper.existCheck(editHistory.productId)
+//                ?: run {
+//                    throw ResponseStatusException(HttpStatus.NOT_FOUND)
+//                }
+//            it
+//        } ?: historyOrigin.productId
+
     }
 
-    @Transactional(rollbackFor = [Exception::class])
-    fun deleteHistory(purchaseId: Int) {
-        historyMapper.findHistoryRow(purchaseId) ?: run {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        @Transactional(rollbackFor = [Exception::class])
+        fun deleteHistory(purchaseId: Int) {
+            historyMapper.findHistoryRow(purchaseId) ?: run {
+                throw ResponseStatusException(HttpStatus.NOT_FOUND)
+            }
+            historyMapper.deleteHistoryRow(purchaseId)
         }
-        historyMapper.deleteHistoryRow(purchaseId)
+
+
+
+
+        fun getHelloService(name: String): String {
+            return "Hello, $name !"
+        }
+
+        fun getHiService(name: Model): String {
+            return "Hi, ${name.model} !"
+        }
+
+        fun getHaoService(name: Model): String {
+            return "Hao, ${name.model} !"
+        }
+
+        fun getHeyService(name: String): String {
+            return "Hey, $name !"
+        }
+
     }
-
-
-
-
-
-
-
-
-
-
-
-    fun getHelloService(name: String):String{
-         return "Hello, $name !"
-    }
-    fun getHiService(name: Model):String{
-        return "Hi, ${name.model} !"
-    }
-    fun getHaoService(name: Model):String{
-        return "Hao, ${name.model} !"
-    }
-    fun getHeyService(name: String):String{
-        return "Hey, $name !"
-    }
-
-}
